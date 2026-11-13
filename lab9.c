@@ -16,7 +16,7 @@ int main(void)
     int sum;
     char answer;
 
-    setlocale(LC_ALL, "");
+    setlocale(LC_ALL, "Russian");
 
     // Задание 1.1. Таблица умножения
     printf("--- Задание 1.1. Таблица умножения ---\n");
