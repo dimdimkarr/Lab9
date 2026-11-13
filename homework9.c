@@ -11,7 +11,7 @@ int main(void)
     int height;
     int answer;
 
-    setlocale(LC_ALL, "");
+    setlocale(LC_ALL, "Russian");
 
     // Задание 3. Вариант 7
 
