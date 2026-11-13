@@ -1,40 +1,46 @@
 # Lab9
-## Условие задачи
+## Условие задачи  
+Задача 1. Используя циклы, выполнить следующие задания:   
 
-Задача 1. Используя циклы, выполнить следующие задания:  
-
-1.1. Вывести таблицу умножения от 1 до 9  
+1.1. Вывести таблицу умножения от 1 до 9.  
 
 1.2. Вывести левую нижнюю треугольную часть таблицы умножения.  
 
 1.3. Выполнить задание по варианту 6: вывести последовательность чисел, в которой каждая следующая строка содержит соответствующее количество повторений числа.  
 
 Задача 2. Вариант 6. Написать программу, которая вычисляет сумму цифр введённого целого числа, больших или равных 7. Предусмотреть возможность повторного выполнения программы по желанию пользователя. Использовать цикл с постусловием do-while.  
+ 
 
 ## Реализация программы  
 ```c
 #define _CRT_SECURE_NO_WARNINGS
-
 #include <stdio.h>
 #include <locale.h>
+#define ROW 9
+#define COL 9
+#define V_ROW 5
+
+int multiply(int row, int col);
+int pattern_value(int row, int col);
+int sum_digits(long long number);
 
 int main(void)
 {
     int row, col;
     long long number;
-    int digit, sum;
+    int sum;
     char answer;
 
-    setlocale(LC_ALL, "");
+    setlocale(LC_ALL, "Russian");
 
     // Задание 1.1. Таблица умножения
     printf("--- Задание 1.1. Таблица умножения ---\n");
 
-    for (row = 1; row <= 9; row++)
+    for (row = 1; row <= ROW; row++)
     {
-        for (col = 1; col <= 9; col++)
+        for (col = 1; col <= COL; col++)
         {
-            printf("%5d", row * col);
+            printf("%5d", multiply(row, col));
         }
         printf("\n");
     }
@@ -44,11 +50,11 @@ int main(void)
     // Задание 1.2. Левый нижний треугольник
     printf("--- Задание 1.2. Левый нижний треугольник ---\n");
 
-    for (row = 1; row <= 9; row++)
+    for (row = 1; row <= ROW; row++)
     {
         for (col = 1; col <= row; col++)
         {
-            printf("%5d", row * col);
+            printf("%5d", multiply(row, col));
         }
         printf("\n");
     }
@@ -58,11 +64,11 @@ int main(void)
     // Задание 1.3. Вариант 6
     printf("--- Задание 1.3. Вариант 6 ---\n");
 
-    for (row = 1; row <= 5; row++)
+    for (row = 1; row <= V_ROW; row++)
     {
         for (col = 1; col <= row; col++)
         {
-            printf("%3d", row);
+            printf("%3d", pattern_value(row, col));
         }
         printf("\n");
     }
@@ -82,25 +88,7 @@ int main(void)
             return 1;
         }
 
-        sum = 0;
-
-        do
-        {
-            digit = number % 10;
-
-            if (digit < 0)
-            {
-                digit = -digit;
-            }
-
-            if (digit >= 7)
-            {
-                sum += digit;
-            }
-
-            number /= 10;
-
-        } while (number != 0);
+        sum = sum_digits(number);
 
         printf("Сумма цифр, больших или равных 7: %d\n", sum);
 
@@ -115,6 +103,60 @@ int main(void)
     } while (answer == 'y' || answer == 'Y');
 
     return 0;
+}
+
+// Вычисление произведения строки и столбца
+int multiply(int row, int col)
+{
+    int result;
+
+    result = row * col;
+
+    return result;
+}
+
+// Определение значения для таблицы варианта 6
+int pattern_value(int row, int col)
+{
+    int value;
+
+    if (col <= row)
+    {
+        value = row;
+    }
+    else
+    {
+        value = 0;
+    }
+
+    return value;
+}
+
+// Вычисление суммы цифр, больших или равных 7
+int sum_digits(long long number)
+{
+    int digit;
+    int sum = 0;
+
+    do
+    {
+        digit = (int)(number % 10);
+
+        if (digit < 0)
+        {
+            digit = -digit;
+        }
+
+        if (digit >= 7)
+        {
+            sum += digit;
+        }
+
+        number /= 10;
+
+    } while (number != 0);
+
+    return sum;
 }
 ```
 ## Пример работы программы  
@@ -139,7 +181,7 @@ int main(void)
     4    8   12   16  
     5   10   15   20   25  
     6   12   18   24   30   36  
-    7   14   21   28   35   42   49  
+    7   14   21   28   35   42   49    
     8   16   24   32   40   48   56   64  
     9   18   27   36   45   54   63   72   81  
 
@@ -156,29 +198,29 @@ int main(void)
 Сумма цифр, больших или равных 7: 24  
 Продолжить? (Да - y, нет - n): n  
 
-# Домашнее задание. Вариант 7
+# Домашнее задание. Вариант 7  
 
-## Условие задачи
+## Условие задачи  
 Задача 3. Вариант 7. Написать программу для построения равностороннего треугольника из заданного пользователем символа. Пользователь вводит символ и размер стороны. Треугольник должен быть контурным. Предусмотреть возможность повторного построения фигуры по желанию пользователя.  
 
 ## Реализация программы
 ```c
 #define _CRT_SECURE_NO_WARNINGS
-
 #include <stdio.h>
 #include <locale.h>
 
+char triangle_symbol(int row, int col, int height, char symbol);
+void draw_triangle(int height, char symbol);
+
 int main(void)
 {
-    int row, col;
-    int a;
     char symbol;
-    char answer;
+    int height;
+    int answer;
 
-    setlocale(LC_ALL, "");
+    setlocale(LC_ALL, "Russian");
 
     // Задание 3. Вариант 7
-    printf("--- Домашнее задание. Вариант 7 ---\n");
 
     do
     {
@@ -192,54 +234,74 @@ int main(void)
 
         printf("Введите размер стороны: ");
 
-        if (scanf("%d", &a) != 1)
+        if (scanf("%d", &height) != 1)
         {
             printf("Ошибка ввода.\n");
             return 1;
         }
 
-        if (a < 2)
+        if (height < 2)
         {
-            printf("Размер стороны должен быть не меньше 2.\n");
+            printf("Ошибка: размер стороны должен быть не меньше 2.\n");
         }
         else
         {
-            printf("Равносторонний треугольник:\n");
+            printf("Равносторонний треугольник:\n\n");
 
-            for (row = 1; row <= a; row++)
-            {
-                for (col = 1; col <= a - row; col++)
-                {
-                    printf(" ");
-                }
-
-                for (col = 1; col <= 2 * row - 1; col++)
-                {
-                    if (col == 1 || col == 2 * row - 1 || row == a)
-                    {
-                        printf("%c", symbol);
-                    }
-                    else
-                    {
-                        printf(" ");
-                    }
-                }
-
-                printf("\n");
-            }
+            draw_triangle(height, symbol);
         }
 
-        printf("\nПродолжить рисование? (Да - y, нет - n): ");
+        printf("\nПродолжить? (Да - введите любое число, Нет - введите 0): ");
 
-        if (scanf(" %c", &answer) != 1)
+        if (scanf("%d", &answer) != 1)
         {
             printf("Ошибка ввода.\n");
             return 1;
         }
 
-    } while (answer == 'y' || answer == 'Y');
+    } while (answer != 0);
 
     return 0;
+}
+
+// Определение символа для заданной позиции
+char triangle_symbol(int row, int col, int height, char symbol)
+{
+    char result;
+
+    if (col == 1 || col == 2 * row - 1 || row == height)
+    {
+        result = symbol;
+    }
+    else
+    {
+        result = ' ';
+    }
+
+    return result;
+}
+
+// Построение равностороннего треугольника
+void draw_triangle(int height, char symbol)
+{
+    int row, col;
+    char c;
+
+    for (row = 1; row <= height; row++)
+    {
+        for (col = 1; col <= height - row; col++)
+        {
+            putchar(' ');
+        }
+
+        for (col = 1; col <= 2 * row - 1; col++)
+        {
+            c = triangle_symbol(row, col, height, symbol);
+            putchar(c);
+        }
+
+        printf("\n");
+    }
 }
 ```
 ## Пример работы программы  
